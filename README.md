@@ -23,3 +23,6 @@ The Student Project will track Inventory and sales for a store. Initially there 
 Students will create classes that model the Item and Customer, a DAO, and Service similar to the classes in this project. Students will also create test (either in Main or in unit tests) that initialize the data in the DAOs with valid-looking test values.
 
 The code should follow standard Java Coding Standards. Correct capitalization, indention, etc. The code should be clear and commented better than the Starter set.
+
+### Lab Implementations
+
