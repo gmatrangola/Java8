@@ -24,5 +24,13 @@ Students will create classes that model the Item and Customer, a DAO, and Servic
 
 The code should follow standard Java Coding Standards. Correct capitalization, indention, etc. The code should be clear and commented better than the Starter set.
 
-### Lab Implementations
+### Lab Assignments
 
+By the start of Day 2 the labs should have the following ...
+
+1. Domain: Items, Customers - Base class for both that holds an ID field and getter/setter
+2. DAO: Superclass that uses a generic that extends the base Domain Class
+3. Service: Superclass the uses a generic that extends the base Service Class
+4. Test/Demo Main that adds Items and Customers and lists them out usng streams
+5. Find and filter items in the inventory using streams
+6. periodically list the inventory using an Executor and Thread Factory.
