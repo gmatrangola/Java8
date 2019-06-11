@@ -2,6 +2,7 @@ package com.matrangola.demo;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class CollectionDemo {
 	
@@ -48,16 +49,20 @@ public class CollectionDemo {
 		hasSet.forEach(this::info);
 		
 		
-		info(hasSet, (msg, val) -> msg + val);
+		info(hasSet, "From Lambda: ", (msg, val) -> {
+			String big = msg.toUpperCase();
+			String small = msg.toLowerCase();
+			return big + small + " --- " + val;	
+		});
 	}
 	
 	public void info(String s) {
 		System.out.println("Info: " + s);
 	}
 	
-	public void info(Set<String> toPrint, Printish printIt) {
+	public void info(Set<String> toPrint, String message, Printish printIt) {
 		for(String val : toPrint) {
-			System.out.println(printIt.printit("something", val));
+			System.out.println(printIt.printit(message, val));
 		}
 	}
 	
@@ -103,12 +108,27 @@ public class CollectionDemo {
         computerMap.put(name, new Computer(name, k));
     }
 	
+	public void demoStream() {
+		List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+		Stream<Integer> stream = list.stream();
+		
+		int sum = stream.reduce(0, (a, b) -> a+b);
+		System.out.println("sum = " + sum);
+		
+		int sum2 = 0;
+		for(Integer val : list) {
+			sum2 += val;
+		}
+		System.out.println("sum 2 = " + sum2);
+		
+	}
+	
 	public static void main(String[] args) {
 		CollectionDemo ourDemo = new CollectionDemo();
-		ourDemo.demo();
+		// ourDemo.demo();
 		// ourDemo.demoList();
 		// ourDemo.demoMap();
-		
+		ourDemo.demoStream();
 	}
 
 }
