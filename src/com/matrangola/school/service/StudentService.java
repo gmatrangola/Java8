@@ -14,8 +14,8 @@ public class StudentService {
 		studentDAO = new InMemoryStudentDAO();
 	}
 	
-	public Student createStudent(String name, String phoneNumber, Student.Status status) {
-		Student student = new Student(name, phoneNumber, status);
+	public Student createStudent(String name, String phoneNumber, Student.Status status, float gpa) {
+		Student student = new Student(name, phoneNumber, status, gpa);
 		student = studentDAO.create(student);
 		
 		return student;

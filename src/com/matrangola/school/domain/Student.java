@@ -11,17 +11,19 @@ public class Student {
 	private int id;
 	private String name;
 	private String phoneNumber;
+	private float gpa;
 	
 	private Status status = Status.FULL_TIME;
 	
 	public Student() {
-		this("Unknown", "", Status.FULL_TIME);
+		this("Unknown", "", Status.FULL_TIME, 4.0f);
 	}
 	
-	public Student(String name, String phoneNumber, Status status) {
+	public Student(String name, String phoneNumber, Status status, float gpa) {
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.status = status;
+		this.gpa = gpa;
 	}
 	
 	public int getId() {
@@ -51,6 +53,15 @@ public class Student {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+
+	public float getGpa() {
+		return gpa;
+	}
+
+	public void setGpa(float gpa) {
+		this.gpa = gpa;
 	}
 
 	@Override
