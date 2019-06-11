@@ -3,34 +3,35 @@ package com.matrangola.school.service;
 import com.matrangola.school.dao.BaseDAO;
 import com.matrangola.school.dao.inmemory.InMemoryCourseDAO;
 import com.matrangola.school.domain.Course;
+import com.matrangola.school.domain.IdentObject;
 
 import java.util.List;
 
 public class CourseService {
 
-	private BaseDAO<Course> courseDAO;
+	private InMemoryCourseDAO courseDAO;
 	
 	public CourseService() {
 		courseDAO = new InMemoryCourseDAO();
 	}
 	
-	public Course createCourse(String code, String title) {
+	public IdentObject createCourse(String code, String title) {
 		Course course = new Course(code, title);
 		course = courseDAO.create(course);
 		
 		return course;
 	}
 	
-	public Course createCourse(Course course) {
+	public IdentObject createCourse(Course course) {
 		course = courseDAO.create(course);
 		
 		return course;
 	}
 	
 	public void deleteCourse(int id) {
-		Course course = courseDAO.get(id);
+		IdentObject course = courseDAO.get(id);
 		if(course != null) {
-			courseDAO.delete(course);
+//			courseDAO.delete(course);
 		}
 	}
 	
@@ -38,7 +39,7 @@ public class CourseService {
 		courseDAO.update(course);
 	}
 	
-	public Course getCourseByCode(String code) {
+	public IdentObject getCourseByCode(String code) {
 		List<Course> courses = courseDAO.getAll();
 		for(Course course : courses) {
 			if(course.getCode().equals(code)) {
@@ -48,7 +49,7 @@ public class CourseService {
 		return null;
 	}
 	
-	public Course getCourse(int id) {
+	public IdentObject getCourse(int id) {
 		return courseDAO.get(id);
 	}
 	
@@ -60,7 +61,7 @@ public class CourseService {
 		return courseDAO;
 	}
 
-	public void setCourseDAO(BaseDAO<Course> courseDAO) {
+	public void setCourseDAO(InMemoryCourseDAO courseDAO) {
 		this.courseDAO = courseDAO;
 	}
 }

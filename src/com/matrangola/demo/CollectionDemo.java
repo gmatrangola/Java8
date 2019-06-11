@@ -1,8 +1,17 @@
 package com.matrangola.demo;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingByConcurrent;
+
+import java.io.IOException;
+
 
 public class CollectionDemo {
 	
@@ -84,6 +93,38 @@ public class CollectionDemo {
             ram = k;
         }
     }
+	
+	public void demoText() throws IOException {
+		Path path = Paths.get("Sherlock.txt");
+		
+		long start = System.currentTimeMillis();
+		Map<String, Long> wordCount = Files.lines(path).parallel()
+//				.peek(line -> {
+//					System.out.println(Thread.currentThread().getId() + ": " + line);
+//				})
+				.flatMap(line -> Arrays.stream(line.trim().split("\\s")))
+				.map(word -> word.replaceAll("[^a-zA-Z]", "").toLowerCase().trim())
+				.filter(word -> {
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return word.length() > 0;
+				})
+				.parallel()
+				.peek(word -> {
+					System.out.println(Thread.currentThread().getId() + ": " + word);
+				})
+				.map(word -> new AbstractMap.SimpleEntry<>(word, 1))
+				.collect(groupingByConcurrent(AbstractMap.SimpleEntry::getKey, counting()));
+		
+		long time = System.currentTimeMillis() - start;
+		
+//		wordCount.forEach((k,v) -> System.out.println(String.format("%s : %d", k, v)));
+		System.out.println("Time: " + time);
+	}
 
 	
 	public void demoMap() {
@@ -123,12 +164,13 @@ public class CollectionDemo {
 		
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		CollectionDemo ourDemo = new CollectionDemo();
 		// ourDemo.demo();
 		// ourDemo.demoList();
 		// ourDemo.demoMap();
-		ourDemo.demoStream();
+		// ourDemo.demoStream();
+		ourDemo.demoText();
 	}
 
 }

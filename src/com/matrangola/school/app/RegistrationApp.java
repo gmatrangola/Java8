@@ -2,6 +2,7 @@ package com.matrangola.school.app;
 
 import com.matrangola.school.domain.Course;
 import com.matrangola.school.domain.Student;
+import com.matrangola.school.domain.Student.Status;
 import com.matrangola.school.service.CourseService;
 import com.matrangola.school.service.StudentService;
 
@@ -49,17 +50,32 @@ public class RegistrationApp {
 		List<Course> courses = cs.getAllCourses();
 		courses.forEach(System.out::println);
 		
+		findAveragePassingGPA(students);
+		
+		findAverageFullTime(students);
+	}
+
+	private static void findAverageFullTime(List<Student> students) {
+		OptionalDouble avg = students.parallelStream()
+			.filter(p -> p.getStatus() == Status.FULL_TIME)
+			.mapToDouble(Student::getGpa)
+			.average();
+		System.out.println("Avg Full Time " + avg.getAsDouble());
+	}
+
+	private static void findAveragePassingGPA(List<Student> students) {
 		OptionalDouble avgPassingGrade = students.stream()
 				.mapToDouble(Student::getGpa)
 				.filter(p -> p>2.5)
 				.average();
 		
-		OptionalDouble max = students.stream().mapToDouble(Student::getGpa).max();
-		
 		// Double avg = stream.map(s -> s.getGpa()).collect(Collectors.averagingDouble(n -> n));
 		
 		if (avgPassingGrade.isPresent()) {
 			System.out.println("Avg Passing GPA: " + avgPassingGrade.getAsDouble());
+		}
+		else {
+			System.out.println("No avg passing GPA");
 		}
 	}
 
