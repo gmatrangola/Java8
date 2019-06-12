@@ -351,6 +351,73 @@ private static void printMeeting(ZonedDateTime next) {
 }
 ```
 
+```java
+	ZonedDateTime zdt = ZonedDateTime.now();
+	System.out.println(zdt);
+	DateTimeFormatter fullMonth = DateTimeFormatter.ofPattern("MMMM d, yyyy HH:mm:ss");
+	DateTimeFormatter threeMonth = DateTimeFormatter.ofPattern("MMM d, yyyy hh:mm:ss");
+	DateTimeFormatter numericZeroMonth = DateTimeFormatter.ofPattern("MM/d/yyyy hh:mm:ss");
+	DateTimeFormatter numericMonth = DateTimeFormatter.ofPattern("M/d/yyyy HH:mm:ss VV");
+	
+	System.out.println(fullMonth.format(zdt));
+	
+	ZonedDateTime later = ZonedDateTime.of(2020, 01, 28, 13, 0, 0, 0, HERE);
+	System.out.println("fullMonth = " + fullMonth.format(later));
+	System.out.println("threeMonth = " + threeMonth.format(later));
+	System.out.println("numericZeroMonth = " + numericZeroMonth.format(later));
+	System.out.println("numericMonth = " + numericMonth.format(later));
+	
+	
+	LocalDateTime now = LocalDateTime.now();
+	ZonedDateTime here = ZonedDateTime.now();
+	ZonedDateTime denver = here.withZoneSameInstant(ZoneId.of("America/Denver"));
+	System.out.println("denver = " + numericMonth.format(denver));
+	System.out.println("here = " + numericMonth.format(here));
+	
+	Duration zoneDifference = Duration.between(here, denver);
+	System.out.println("difference = " + zoneDifference.toHours());
+	
+	Duration localDifference = Duration.between(now, denver);
+	System.out.println("localDifference = " + localDifference.toHours());
+	
+	long hours = ChronoUnit.HOURS.between(here, denver);
+	long weeks = ChronoUnit.WEEKS.between(here, later);
+	
+	System.out.println("weeks apart " + weeks);
+	
+	
+	System.out.println("half day later " + fullMonth.format(here.plus(1, ChronoUnit.HALF_DAYS)) );
+	
+	ZonedDateTime thisFriday = here.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+	System.out.println("this friday " + fullMonth.format(thisFriday));
+	System.out.println("friday after that " + fullMonth.format(thisFriday.with(TemporalAdjusters.next(DayOfWeek.FRIDAY))));
+	
+	ZonedDateTime dec = ZonedDateTime.of(2020, 12, 1, 0, 0, 0, 0, HERE);
+	ZonedDateTime firstMonday = dec.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
+	
+	System.out.println("first mon in dec " + fullMonth.format(firstMonday));
+	
+	// Leap Year
+	ZonedDateTime firstDay = ZonedDateTime.of(2020, 1, 1, 0, 0, 0, 0, HERE);
+	ZonedDateTime lastDay = ZonedDateTime.of(2021, 1, 1, 0, 0, 0, 0, HERE);
+	
+	long days = ChronoUnit.DAYS.between(firstDay, lastDay); // inclusive and exclusive days.
+	System.out.println("days: " + days);
+```
+
+```java
+	public void instantDemo() {
+		DateTimeFormatter fullMonth = DateTimeFormatter.ofPattern("MMMM yyyy hh:mm:ss");
+		Instant now = Instant.now();
+		System.out.println("instant = " + now + " " + fullMonth.format(ZonedDateTime.ofInstant(now, HERE)));
+		Instant later = Instant.now();
+		Duration diff = Duration.between(later, now);
+		System.out.println("duration = " + diff.getNano());
+		
+	}
+
+```
+
 ## Persistence with JSON
 
 Jackson library
